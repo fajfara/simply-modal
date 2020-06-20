@@ -11,7 +11,7 @@ How to use:
 import SimplyModal from 'simply-modal';
 ```
 
-If You want to import the minified version, already built (works in ie11 and all modern browsers), you can find the built code in ./build/scripts/bundle.js.
+- If You want to import the minified version, already built (works in ie11 and all modern browsers), you can find the built code in ./build/scripts/bundle.js.
 
-To develop, simply edit code in ./src and use guild to build the code. The file index.html has a very basic examples.
+- To develop, simply edit code in ./src and use guild to build the code. The file index.html has a very basic examples.
 
