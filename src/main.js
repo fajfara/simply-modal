@@ -6,20 +6,29 @@ export default class SimplyModal {
         this.element = null;
         this.innerHtml = '';
         this.closeIcon = closeIcon;
-        this.id = document.querySelectorAll('.simple-modal').length + 1;
+        this.id = document.querySelectorAll('.simply-modal').length + 1;
 
+        // TODO refactor and test
         // If option is not provided, return
         if (!element) return;
         // Checks on init
         if (typeof element === 'string') {
             // Check if element is just a string/selector
-            this.element = document.querySelector(element);
+            // this.element = document.querySelector(element);
+            try {
+                this.element = document.querySelector(element);
+                this.innerHtml = this.element.innerHTML;
+            } catch (error) {
+                this.innerHtml = element;
+            }
+            /*
             if (!this.element) {
                 // Means that element passed isn't a selector, just use this as inner text of modal
                 this.innerHtml = element;
             } else {
                 this.innerHtml = this.element.innerHTML;
             }
+            */
         } else if (element.nodeType) {
             this.innerHtml = element.innerHTML;
         }
@@ -31,23 +40,20 @@ export default class SimplyModal {
     generateModal() {
         const closeButton = this.closeIcon ? `<button aria-label="Button that closes modal" id="close-modal-${this.id}">${this.closeIcon}</button>` : `<button id="close-modal-${this.id}">Close modal</button>`;
         const modalMarkup = `
-            <div class="simple-modal" id="simple-modal-${this.id}">
-                <div class="simple-modal__content">
+            <div class="simply-modal simply-modal-${this.id}" id="simply-modal-${this.id}">
+                <div class="simply-modal__content">
                     ${closeButton}
                     ${this.innerHtml}
                 </div>
             </div>
         `;
-        // Check if simple modal stylesheet already generated
-        if (!document.getElementById('simple-modal-styles')) this.generateStylesheet();
+        // Check if simply modal stylesheet already generated
+        if (!document.getElementById('simply-modal-styles')) this.generateStylesheet();
 
         this.modal = this.createElementFromHTML(modalMarkup);
-
-        console.log(this.modal);
         
-
         this.modal.addEventListener('click', (e) => {
-            if (e.target.id === `simple-modal-${this.id}`) {
+            if (e.target.id === `simply-modal-${this.id}`) {
                 this.open();
             }
         });
@@ -55,11 +61,12 @@ export default class SimplyModal {
         document.body.appendChild(this.modal);
     }
 
+    // Function for generating stylesheet for simply modal, only runs on one modal
     generateStylesheet() {
         const head = document.head || document.getElementsByTagName('head')[0];
         const style = document.createElement('style');
         const modalStyles = `
-            .simple-modal {
+            .simply-modal {
                 background: rgba(0, 0, 0, 0.5);
                 display: none;
                 height: 100vh;
@@ -70,7 +77,7 @@ export default class SimplyModal {
                 z-index: 1000;
             }
 
-            .simple-modal button {
+            .simply-modal button {
                 position: absolute;
                 top: 0;
                 right: 0;
@@ -78,26 +85,27 @@ export default class SimplyModal {
                 z-index: 1000;
             }
 
-            .simple-modal__content {
+            .simply-modal__content {
                 max-width: 50%;
                 position: relative;
             }
 
-            .simple-modal__content *{
+            .simply-modal__content *{
                 width: 100%;
             }
 
-            .simple-modal.open {
+            .simply-modal.open {
                 display: flex;
                 justify-content: center;
                 align-items: center;
             }
         `;
-        style.setAttribute('id', 'simple-modal-styles');
+        style.setAttribute('id', 'simply-modal-styles');
         head.appendChild(style);
         style.type = 'text/css';
+        
         if (style.styleSheet) {
-        // This is required for IE8 and below.
+            // This is required for IE8 and below.
             style.styleSheet.cssText = modalStyles;
         } else {
             style.appendChild(document.createTextNode(modalStyles));

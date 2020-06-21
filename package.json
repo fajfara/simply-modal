@@ -1,8 +1,9 @@
 {
-  "name": "simple-modal",
-  "version": "0.1",
+  "name": "simply-modal",
+  "version": "1.0.01",
   "description": "A simple modal",
   "main": "src/main.js",
+  "repository": "https://github.com/fajfara/simply-modal",
   "scripts": {
     "hello": "echo \"Hello there\""
   },
